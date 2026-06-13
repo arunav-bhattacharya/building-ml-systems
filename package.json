@@ -1,0 +1,19 @@
+{
+  "name": "designing-ml-systems-companion",
+  "version": "1.0.0",
+  "private": true,
+  "description": "An interactive study companion for 'Designing Machine Learning Systems' by Chip Huyen.",
+  "type": "module",
+  "scripts": {
+    "build": "node src/build.js",
+    "serve": "node src/serve.js"
+  },
+  "dependencies": {
+    "katex": "^0.16.11",
+    "markdown-it": "^14.1.0",
+    "markdown-it-attrs": "^4.3.1",
+    "markdown-it-container": "^4.0.0",
+    "minisearch": "^7.1.1",
+    "shiki": "^1.24.0"
+  }
+}

@@ -1,0 +1,128 @@
+{
+  "title": "Designing Machine Learning Systems",
+  "subtitle": "An Iterative Process for Production-Ready Applications",
+  "author": "Chip Huyen",
+  "sections": [
+    {
+      "slug": "ch01",
+      "num": "1",
+      "title": "Overview of Machine Learning Systems",
+      "group": "chapter",
+      "category": "Project Setup",
+      "pages": "1–24",
+      "time": 22,
+      "desc": "When ML is the right tool, where it shines, and how production ML differs from research and traditional software.",
+      "lede": "Before writing a single model, you need to know when machine learning is worth it — and how an ML system in production is a very different beast from a Kaggle notebook."
+    },
+    {
+      "slug": "ch02",
+      "num": "2",
+      "title": "Introduction to Machine Learning Systems Design",
+      "group": "chapter",
+      "category": "Project Setup",
+      "pages": "25–48",
+      "time": 24,
+      "desc": "Aligning ML with business goals, the four system requirements, the iterative design loop, framing problems, and the data-vs-algorithms debate.",
+      "lede": "A great model that doesn't move a business metric is a failed project. This chapter turns fuzzy goals into a well-framed ML problem with clear requirements."
+    },
+    {
+      "slug": "ch03",
+      "num": "3",
+      "title": "Data Engineering Fundamentals",
+      "group": "chapter",
+      "category": "Data",
+      "pages": "49–80",
+      "time": 28,
+      "desc": "Data sources, formats, relational and NoSQL models, OLTP vs OLAP, ETL, dataflow modes, and batch vs stream processing.",
+      "lede": "ML runs on data, and data runs on infrastructure. Here are the storage, format, and dataflow fundamentals every ML engineer should own."
+    },
+    {
+      "slug": "ch04",
+      "num": "4",
+      "title": "Training Data",
+      "group": "chapter",
+      "category": "Data",
+      "pages": "81–118",
+      "time": 30,
+      "desc": "Sampling strategies, hand and natural labels, weak/semi/active learning, class imbalance, and data augmentation.",
+      "lede": "Training data is created, not found. This chapter covers how to sample it, label it (even when labels are scarce), and balance and augment it."
+    },
+    {
+      "slug": "ch05",
+      "num": "5",
+      "title": "Feature Engineering",
+      "group": "chapter",
+      "category": "Data",
+      "pages": "119–148",
+      "time": 25,
+      "desc": "Learned vs engineered features, common operations, the danger of data leakage, and what makes a feature good.",
+      "lede": "Having the right features often beats having the fanciest model. This chapter covers the craft — and the subtle leakage traps that silently inflate your scores."
+    },
+    {
+      "slug": "ch06",
+      "num": "6",
+      "title": "Model Development and Offline Evaluation",
+      "group": "chapter",
+      "category": "Modeling",
+      "pages": "149–190",
+      "time": 30,
+      "desc": "Selecting models, ensembles, experiment tracking, distributed training, AutoML, baselines, and evaluation methods.",
+      "lede": "How to choose, train, track, and rigorously evaluate models — including the offline checks that tell you whether a model is actually ready to face the world."
+    },
+    {
+      "slug": "ch07",
+      "num": "7",
+      "title": "Model Deployment and Prediction Service",
+      "group": "chapter",
+      "category": "Deployment",
+      "pages": "191–224",
+      "time": 26,
+      "desc": "Deployment myths, batch vs online prediction, model compression, and serving ML on the cloud and the edge.",
+      "lede": "Deploying a model is where research becomes a product. This chapter covers serving patterns, making models small and fast, and the cloud-versus-edge decision."
+    },
+    {
+      "slug": "ch08",
+      "num": "8",
+      "title": "Data Distribution Shifts and Monitoring",
+      "group": "chapter",
+      "category": "Operations",
+      "pages": "225–262",
+      "time": 28,
+      "desc": "Why ML systems fail, the types of distribution shift, how to detect them, and monitoring vs observability.",
+      "lede": "Models decay because the world changes. This chapter explains the failure modes unique to ML, how distributions drift, and how to watch for it in production."
+    },
+    {
+      "slug": "ch09",
+      "num": "9",
+      "title": "Continual Learning and Test in Production",
+      "group": "chapter",
+      "category": "Operations",
+      "pages": "263–292",
+      "time": 26,
+      "desc": "Stateless vs stateful retraining, the four stages of continual learning, and safe ways to test models on live traffic.",
+      "lede": "The antidote to staleness is updating models continually — and the only honest test is production itself. Here's how to do both safely."
+    },
+    {
+      "slug": "ch10",
+      "num": "10",
+      "title": "Infrastructure and Tooling for MLOps",
+      "group": "chapter",
+      "category": "Operations",
+      "pages": "293–330",
+      "time": 28,
+      "desc": "Storage and compute, dev environments, containers, orchestration, the ML platform, and build-vs-buy.",
+      "lede": "The unglamorous foundation that lets teams ship ML reliably: compute, environments, orchestration, model and feature stores, and what to build versus buy."
+    },
+    {
+      "slug": "ch11",
+      "num": "11",
+      "title": "The Human Side of Machine Learning",
+      "group": "chapter",
+      "category": "People",
+      "pages": "331–354",
+      "time": 22,
+      "desc": "Designing for user experience, structuring ML teams, and a practical framework for responsible AI.",
+      "lede": "ML systems are built by people, for people. This chapter covers user experience under uncertainty, how to organize teams, and building AI responsibly."
+    }
+  ]
+}
