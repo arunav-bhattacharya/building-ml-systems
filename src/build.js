@@ -406,12 +406,17 @@ function pager(idx) {
 
 function chapterPage(section, idx, rendered) {
   const catColor = CAT_COLOR[section.category] || "--accent";
+  const nCards = (rendered.html.match(/class="flashcard"/g) || []).length;
+  const nQuiz = (rendered.html.match(/class="quiz-q"/g) || []).length;
+  const nAssign = (rendered.html.match(/class="assignment"/g) || []).length;
+  const plural = (n, s, p) => `${n} ${n === 1 ? s : (p || s + "s")}`;
+  const metaBits = [`~${section.time} min`, plural(nCards, "flashcard"), plural(nQuiz, "quiz", "quizzes"), plural(nAssign, "assignment")];
   return head(`${section.num}. ${section.title} — ${meta.title}`, section.desc) +
     `<body>` + SVG_DEFS + topbar() + `<div class="app">` + sidebar(section.slug) +
     `<main class="main"><article class="content">` +
-    `<div class="chapter-kicker"><span class="kicker-tag" style="color:var(${catColor});background:color-mix(in srgb, var(${catColor}) 12%, transparent);border-color:color-mix(in srgb, var(${catColor}) 30%, transparent)">Chapter ${section.num} · ${escapeHtml(section.category)}</span>` +
-    `<span class="kicker-time">${icons.clock} ~${section.time} min</span></div>` +
+    `<div class="chapter-kicker"><span class="kicker-tag" style="color:var(${catColor});background:color-mix(in srgb, var(${catColor}) 12%, transparent);border-color:color-mix(in srgb, var(${catColor}) 30%, transparent)">Chapter ${section.num} · ${escapeHtml(section.category)}</span></div>` +
     `<h1>${escapeHtml(section.title)}</h1>` +
+    `<div class="chapter-meta">${icons.clock}<span>${metaBits.join('</span><span class="sep">·</span><span>')}</span></div>` +
     (section.lede ? `<p class="chapter-lede">${escapeHtml(section.lede)}</p>` : "") +
     rendered.html +
     pager(idx) +
@@ -438,8 +443,9 @@ function landingPage() {
     const catColor = CAT_COLOR[s.category] || "--accent";
     return `<a class="chapter-card" href="${s.slug}.html">
 <div class="cc-top"><span class="cc-num" style="background:linear-gradient(145deg, var(${catColor}), color-mix(in srgb, var(${catColor}) 65%, #000))">${s.num}</span>
-<div><div class="cc-cat">${escapeHtml(s.category)}</div><div class="cc-time">${icons.clock} ~${s.time} min</div></div></div>
-<h3>${escapeHtml(s.title)}</h3><p>${escapeHtml(s.desc)}</p></a>`;
+<div class="cc-cat" style="color:var(${catColor})">${escapeHtml(s.category)}</div></div>
+<h3>${escapeHtml(s.title)}</h3><p>${escapeHtml(s.desc)}</p>
+<div class="cc-time">${icons.clock} ~${s.time} min</div></a>`;
   }).join("\n");
 
   const roadmap = STAGES.map((st, i) => {
