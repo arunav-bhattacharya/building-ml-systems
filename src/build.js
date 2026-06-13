@@ -439,8 +439,7 @@ function landingPage() {
     return `<a class="chapter-card" href="${s.slug}.html">
 <div class="cc-top"><span class="cc-num" style="background:linear-gradient(145deg, var(${catColor}), color-mix(in srgb, var(${catColor}) 65%, #000))">${s.num}</span>
 <div><div class="cc-cat">${escapeHtml(s.category)}</div><div class="cc-time">${icons.clock} ~${s.time} min</div></div></div>
-<h3>${escapeHtml(s.title)}</h3><p>${escapeHtml(s.desc)}</p>
-<div class="cc-go">Start chapter ${icons.arrowRight}</div></a>`;
+<h3>${escapeHtml(s.title)}</h3><p>${escapeHtml(s.desc)}</p></a>`;
   }).join("\n");
 
   const roadmap = STAGES.map((st, i) => {
@@ -453,7 +452,6 @@ function landingPage() {
 
   const body = `<body>${SVG_DEFS}${topbar()}<div class="app no-toc">${sidebar("")}<main class="main">
 <section class="hero">
-<span class="hero-eyebrow">${icons.sparkles} Interactive study companion</span>
 <h1>Designing <span class="grad">Machine Learning</span> Systems</h1>
 <p class="hero-sub">A visual, beginner-friendly companion to Chip Huyen's guide for building production-ready ML systems — from framing the problem to operating models in the wild.</p>
 <p class="hero-byline">Based on the book by <strong>Chip Huyen</strong> (O'Reilly, 2022) · 11 chapters</p>
@@ -461,13 +459,15 @@ function landingPage() {
 <button class="btn btn-ghost" data-search-open>${icons.search} Search the book</button></div>
 </section>
 <div class="section-wrap">
-<div class="feature-grid">${featureCards}</div>
 <h2 class="section-title">Browse the chapters</h2>
 <p class="section-desc">Eleven chapters, grouped by the lifecycle of a real ML system.</p>
 <div class="browse-grid">${cards}</div>
 <h2 class="section-title">The ML systems lifecycle</h2>
 <p class="section-desc">How the chapters fit together, end to end.</p>
 <div class="roadmap">${roadmap}</div>
+<h2 class="section-title">Why this companion?</h2>
+<p class="section-desc">Built to make a dense, production-focused book click — and stick.</p>
+<div class="feature-grid">${featureCards}</div>
 </div>
 ${footer()}
 </main></div>${searchOverlay()}${scripts()}</body></html>`;
