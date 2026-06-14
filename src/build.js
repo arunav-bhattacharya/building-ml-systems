@@ -397,9 +397,9 @@ const SVG_DEFS = `<svg class="dg-defs" width="0" height="0" aria-hidden="true" f
 <marker id="dg-arrow-accent" markerWidth="9" markerHeight="9" refX="7.2" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L7.5,3 L0,6 Z" class="dg-ah-accent"/></marker>
 </defs></svg>`;
 
-function topbar() {
+function topbar(hideSideToggle) {
   return `<header class="topbar">
-<button class="icon-btn sidebar-toggle" data-side-toggle aria-label="Toggle sidebar">${icons.menu}</button>
+${hideSideToggle ? "" : `<button class="icon-btn sidebar-toggle" data-side-toggle aria-label="Toggle sidebar">${icons.menu}</button>`}
 <a class="brand" href="index.html"><span class="brand-logo">ML</span><span class="brand-text"><b>Designing ML Systems</b><span>Study companion</span></span></a>
 <div class="spacer"></div>
 <button class="search-trigger" data-search-open aria-label="Search"><span>${icons.search}</span><span class="st-label">Search…</span><kbd>⌘K</kbd></button>
@@ -514,7 +514,7 @@ function landingPage() {
 <div class="stage-body"><h4>${st.title}</h4><p>${st.desc}</p><div class="stage-chs">${chips}</div></div></div>`;
   }).join("\n");
 
-  const body = `<body>${SVG_DEFS}${topbar()}<div class="app no-toc">${sidebar("")}<main class="main">
+  const body = `<body>${SVG_DEFS}${topbar(true)}<main class="main home-main">
 <section class="hero">
 <h1>Designing <span class="grad">Machine Learning</span> Systems</h1>
 <p class="hero-sub">A visual, beginner-friendly companion to Chip Huyen's guide for building production-ready ML systems — from framing the problem to operating models in the wild.</p>
@@ -534,7 +534,7 @@ function landingPage() {
 <div class="feature-grid">${featureCards}</div>
 </div>
 ${footer()}
-</main></div>${searchOverlay()}${scripts()}</body></html>`;
+</main>${searchOverlay()}${scripts()}</body></html>`;
   return head(meta.title + " — Study Companion", meta.subtitle) + body;
 }
 
