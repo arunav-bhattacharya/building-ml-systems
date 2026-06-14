@@ -7,6 +7,8 @@ export const icons = {
   search: S(`<circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>`),
   sun: S(`<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>`),
   chevronRight: S(`<polyline points="9 18 15 12 9 6"/>`),
+  chevronLeft: S(`<polyline points="15 18 9 12 15 6"/>`),
+  cards: S(`<rect x="3" y="5" width="13" height="15" rx="2"/><path d="M8 5V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-1"/>`),
   arrowRight: S(`<line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>`),
   clock: S(`<circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/>`),
   book: S(`<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>`),

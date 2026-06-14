@@ -65,11 +65,47 @@
     spy();
   }
 
-  /* ---------------- Flashcards ---------------- */
+  /* ---------------- Flashcards: flip ---------------- */
   document.querySelectorAll(".flashcard").forEach(function (c) {
     c.addEventListener("click", function () { c.classList.toggle("flipped"); });
     c.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); c.classList.toggle("flipped"); } });
     c.setAttribute("tabindex", "0");
+  });
+
+  /* ---------------- Flashcards: one-at-a-time carousel ---------------- */
+  document.querySelectorAll(".flashcards[data-deck]").forEach(function (deck) {
+    var cards = deck.querySelectorAll(".flashcard");
+    if (!cards.length) return;
+    var prev = deck.querySelector(".fc-prev"), next = deck.querySelector(".fc-next");
+    var counter = deck.querySelector(".fc-counter b");
+    var idx = 0;
+    function show(n) {
+      cards[idx].classList.remove("active", "flipped");
+      idx = Math.max(0, Math.min(n, cards.length - 1));
+      cards[idx].classList.add("active");
+      cards[idx].classList.remove("flipped");
+      if (counter) counter.textContent = idx + 1;
+      if (prev) prev.disabled = idx === 0;
+      if (next) next.disabled = idx === cards.length - 1;
+    }
+    if (prev) prev.addEventListener("click", function (e) { e.stopPropagation(); show(idx - 1); });
+    if (next) next.addEventListener("click", function (e) { e.stopPropagation(); show(idx + 1); });
+    show(0);
+  });
+
+  /* ---------------- Knowledge tabs (flashcards / quizzes / assignment) ---------------- */
+  document.querySelectorAll(".kn-tabs").forEach(function (tabs) {
+    var btns = tabs.querySelectorAll(".kn-tab");
+    var panels = tabs.querySelectorAll(".kn-panel");
+    btns.forEach(function (b) {
+      b.addEventListener("click", function () {
+        btns.forEach(function (x) { x.classList.remove("active"); });
+        panels.forEach(function (p) { p.classList.remove("active"); });
+        b.classList.add("active");
+        var panel = tabs.querySelector('.kn-panel[data-panel="' + b.getAttribute("data-tab") + '"]');
+        if (panel) panel.classList.add("active");
+      });
+    });
   });
 
   /* ---------------- Quiz ---------------- */

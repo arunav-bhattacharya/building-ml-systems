@@ -230,18 +230,24 @@ function renderDiagram(svg, rest) {
 
 function renderFlashcards(content) {
   const cards = content.split(/\n-{3,}\n/).map((c) => c.trim()).filter(Boolean);
-  const out = cards.map((c) => {
+  const out = cards.map((c, i) => {
     const qm = c.match(/Q:\s*([\s\S]*?)(?:\nA:|$)/);
     const am = c.match(/A:\s*([\s\S]*)$/);
     const q = qm ? qm[1].trim() : c;
     const a = am ? am[1].trim() : "";
-    return `<div class="flashcard"><div class="flashcard-inner">` +
-      `<div class="flashcard-face flashcard-front"><div class="fc-tag">Flashcard</div><div class="fc-q">${md.renderInline(q)}</div>` +
+    return `<div class="flashcard${i === 0 ? " active" : ""}"><div class="flashcard-inner">` +
+      `<div class="flashcard-face flashcard-front"><div class="fc-tag">Flashcard ${i + 1}</div><div class="fc-q">${md.renderInline(q)}</div>` +
       `<div class="fc-hint">${icons.flip} tap to flip</div></div>` +
       `<div class="flashcard-face flashcard-back"><div class="fc-tag">Answer</div><div class="fc-a">${md.renderInline(a)}</div></div>` +
       `</div></div>`;
   }).join("\n");
-  return `<div class="flashcards">${out}</div>\n`;
+  // one card at a time, with prev/next navigation
+  return `<div class="flashcards" data-deck>` +
+    `<div class="fc-viewport">${out}</div>` +
+    `<div class="fc-nav"><button class="fc-prev" aria-label="Previous card">${icons.chevronLeft}<span>Prev</span></button>` +
+    `<span class="fc-counter"><b>1</b> / ${cards.length}</span>` +
+    `<button class="fc-next" aria-label="Next card"><span>Next</span>${icons.chevronRight}</button></div>` +
+    `</div>\n`;
 }
 
 function renderQuiz(content) {
@@ -297,6 +303,44 @@ function escapeHtml(s) {
   return String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 }
 
+// Return the full <div>…</div> starting at startIdx, accounting for nested divs.
+function extractDiv(html, startIdx) {
+  const tagRe = /<\/?div\b[^>]*>/g;
+  tagRe.lastIndex = startIdx;
+  let depth = 0, m;
+  while ((m = tagRe.exec(html))) {
+    depth += m[0][1] === "/" ? -1 : 1;
+    if (depth === 0) return { block: html.slice(startIdx, tagRe.lastIndex), end: tagRe.lastIndex };
+  }
+  return null;
+}
+// Group the chapter's flashcards / quiz / assignment blocks into a tabbed widget.
+function wrapKnowledge(html) {
+  const fIdx = html.indexOf('<div class="flashcards"');
+  if (fIdx < 0) return html;
+  const f = extractDiv(html, fIdx);
+  if (!f) return html;
+  const qIdx = html.indexOf('<div class="quiz"', f.end);
+  const q = qIdx >= 0 ? extractDiv(html, qIdx) : null;
+  const aIdx = html.indexOf('<div class="assignment"', q ? q.end : f.end);
+  const a = aIdx >= 0 ? extractDiv(html, aIdx) : null;
+  const nCards = (f.block.match(/class="flashcard[ "]/g) || []).length;
+  const nQuiz = q ? (q.block.match(/class="quiz-q"/g) || []).length : 0;
+  const tabs =
+    `<div class="kn-tabs">` +
+    `<div class="kn-tablist" role="tablist">` +
+    `<button class="kn-tab active" data-tab="fc">${icons.cards}<span>Flashcards</span><span class="kn-count">${nCards}</span></button>` +
+    (q ? `<button class="kn-tab" data-tab="qz">${icons.quiz}<span>Quizzes</span><span class="kn-count">${nQuiz}</span></button>` : "") +
+    (a ? `<button class="kn-tab" data-tab="as">${icons.assignment}<span>Assignment</span></button>` : "") +
+    `</div>` +
+    `<div class="kn-panel active" data-panel="fc">${f.block}</div>` +
+    (q ? `<div class="kn-panel" data-panel="qz">${q.block}</div>` : "") +
+    (a ? `<div class="kn-panel" data-panel="as">${a.block}</div>` : "") +
+    `</div>`;
+  const endIdx = a ? a.end : (q ? q.end : f.end);
+  return html.slice(0, fIdx) + tabs + html.slice(endIdx);
+}
+
 /* ============================================================================
    Render one markdown doc -> { html, toc, headings, plain }
    ========================================================================== */
@@ -316,7 +360,7 @@ function renderDoc(mdText, num) {
       toc.push({ level: t.tag === "h2" ? 2 : 3, id, text });
     }
   }
-  const html = md.renderer.render(tokens, md.options, env);
+  const html = wrapKnowledge(md.renderer.render(tokens, md.options, env));
   const plain = mdText.replace(/```[\s\S]*?```/g, " ").replace(/[#>*_`|:-]/g, " ").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
   return { html, toc, plain };
 }
@@ -414,7 +458,7 @@ function pager(idx) {
 
 function chapterPage(section, idx, rendered) {
   const catColor = CAT_COLOR[section.category] || "--accent";
-  const nCards = (rendered.html.match(/class="flashcard"/g) || []).length;
+  const nCards = (rendered.html.match(/class="flashcard[ "]/g) || []).length;
   const nQuiz = (rendered.html.match(/class="quiz-q"/g) || []).length;
   const nAssign = (rendered.html.match(/class="assignment"/g) || []).length;
   const plural = (n, s, p) => `${n} ${n === 1 ? s : (p || s + "s")}`;

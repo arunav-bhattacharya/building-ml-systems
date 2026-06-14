@@ -541,11 +541,44 @@ figure.diagram svg text { font-family: 'Google Sans Flex', system-ui, sans-serif
 .kn-head { display: flex; align-items: center; gap: 10px; margin: 14px 0 4px; }
 .kn-head .kn-icon { width: 26px; height: 26px; color: var(--accent); }
 
-/* Flashcards */
+/* Test-your-knowledge tabs */
+.kn-tabs { margin: 18px 0; }
+.kn-tablist { display: flex; gap: 4px; flex-wrap: wrap; border-bottom: 1px solid var(--line); margin-bottom: 20px; }
+.kn-tab {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 10px 16px; border: none; background: none; color: var(--mut);
+  cursor: pointer; font-family: inherit; font-size: .92rem; font-weight: 600;
+  border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color .12s ease;
+}
+.kn-tab:hover { color: var(--txt); }
+.kn-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+.kn-tab svg { width: 17px; height: 17px; }
+.kn-count { font-size: .72rem; background: var(--chip); color: var(--mut); border-radius: 99px; padding: 1px 8px; font-weight: 600; }
+.kn-tab.active .kn-count { background: var(--tint-strong); color: var(--accent); }
+.kn-panel { display: none; }
+.kn-panel.active { display: block; }
+.kn-panel > :first-child { margin-top: 0; }
+
+/* Flashcards — one card at a time with prev/next */
 .flashcards { margin: 20px 0; }
+.flashcards[data-deck] .flashcard { display: none; margin-bottom: 0; }
+.flashcards[data-deck] .flashcard.active { display: block; }
 .flashcard {
   perspective: 1400px; height: 188px; margin-bottom: 14px; cursor: pointer;
 }
+.fc-nav { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 16px; }
+.fc-nav button {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 8px 16px; border-radius: 99px; border: 1px solid var(--line);
+  background: var(--card); color: var(--txt); cursor: pointer;
+  font-family: inherit; font-size: .85rem; font-weight: 600; box-shadow: var(--sh-sm);
+  transition: border-color .12s ease, transform .12s ease, opacity .12s ease;
+}
+.fc-nav button:hover:not(:disabled) { border-color: var(--accent); transform: translateY(-1px); }
+.fc-nav button:disabled { opacity: .38; cursor: default; }
+.fc-nav button svg { width: 15px; height: 15px; }
+.fc-counter { font-size: .85rem; color: var(--mut); font-variant-numeric: tabular-nums; min-width: 50px; text-align: center; }
+.fc-counter b { color: var(--accent); }
 .flashcard-inner {
   position: relative; width: 100%; height: 100%;
   transition: transform .55s cubic-bezier(.4, .1, .2, 1); transform-style: preserve-3d;
@@ -669,6 +702,7 @@ figure.diagram svg text { font-family: 'Google Sans Flex', system-ui, sans-serif
 .hero h1 .grad { background: linear-gradient(120deg, var(--accent), var(--accent-bright)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
 .hero .hero-sub { font-size: 1.24rem; color: var(--mut); max-width: 60ch; margin: 0 auto 14px; line-height: 1.6; }
 .hero .hero-byline { font-size: .95rem; color: var(--mut); margin-bottom: 30px; }
+.hero .hero-byline strong { color: var(--accent); font-weight: 650; }
 .hero-cta { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
 .btn {
   display: inline-flex; align-items: center; gap: 9px;
