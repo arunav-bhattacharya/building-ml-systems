@@ -364,12 +364,20 @@ function topbar() {
 }
 
 function sidebar(activeSlug) {
-  const links = SECTIONS.map((s) =>
-    `<a class="side-link${s.slug === activeSlug ? " active" : ""}" href="${s.slug}.html"><span class="num">${s.num}</span><span>${escapeHtml(s.title)}</span></a>`
-  ).join("\n");
-  return `<aside class="sidebar"><nav>
-<div class="side-section"><div class="side-label">Chapters</div>${links}</div>
-</nav></aside>
+  // partition chapters into the same colored groups used on the landing page
+  const groups = STAGES
+    .map((st) => ({ key: st.key, color: CAT_COLOR[st.key] || "--accent", items: SECTIONS.filter((s) => s.category === st.key) }))
+    .filter((g) => g.items.length);
+  const groupsHtml = groups.map((g) => {
+    const links = g.items.map((s) =>
+      `<a class="side-link${s.slug === activeSlug ? " active" : ""}" href="${s.slug}.html"><span class="num">${s.num}</span><span>${escapeHtml(s.title)}</span></a>`
+    ).join("\n");
+    return `<div class="side-group" style="--cat: var(${g.color})">
+<div class="side-glabel"><span class="side-dot"></span>${escapeHtml(g.key)}</div>
+<div class="side-glinks">${links}</div>
+</div>`;
+  }).join("\n");
+  return `<aside class="sidebar"><nav>${groupsHtml}</nav></aside>
 <button class="side-reopen" data-side-toggle aria-label="Open sidebar">${icons.chevronRight}</button>`;
 }
 
