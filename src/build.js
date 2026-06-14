@@ -462,14 +462,20 @@ function chapterPage(section, idx, rendered) {
   const nQuiz = (rendered.html.match(/class="quiz-q"/g) || []).length;
   const nAssign = (rendered.html.match(/class="assignment"/g) || []).length;
   const plural = (n, s, p) => `${n} ${n === 1 ? s : (p || s + "s")}`;
-  const metaBits = [`~${section.time} min`, plural(nCards, "flashcard"), plural(nQuiz, "quiz", "quizzes"), plural(nAssign, "assignment")];
+  const metaItems = [
+    { ic: icons.clock, t: `~${section.time} min` },
+    { ic: icons.cards, t: plural(nCards, "flashcard") },
+    { ic: icons.quiz, t: plural(nQuiz, "quiz", "quizzes") },
+    { ic: icons.assignment, t: plural(nAssign, "assignment") }
+  ];
+  const metaHtml = metaItems.map((m) => `<span class="cm-item">${m.ic}<span>${m.t}</span></span>`).join("");
   return head(`${section.num}. ${section.title} — ${meta.title}`, section.desc) +
     `<body>` + SVG_DEFS + topbar() + `<div class="app">` + sidebar(section.slug) +
     `<main class="main"><article class="content">` +
     `<div class="chapter-kicker"><span class="kicker-tag" style="color:var(${catColor});background:color-mix(in srgb, var(${catColor}) 12%, transparent);border-color:color-mix(in srgb, var(${catColor}) 30%, transparent)">Chapter ${section.num} · ${escapeHtml(section.category)}</span></div>` +
     `<h1>${escapeHtml(section.title)}</h1>` +
-    `<div class="chapter-meta">${icons.clock}<span>${metaBits.join('</span><span class="sep">·</span><span>')}</span></div>` +
     (section.lede ? `<p class="chapter-lede">${escapeHtml(section.lede)}</p>` : "") +
+    `<div class="chapter-meta">${metaHtml}</div>` +
     rendered.html +
     pager(idx) +
     `</article></main>` +

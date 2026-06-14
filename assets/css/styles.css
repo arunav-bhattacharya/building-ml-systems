@@ -308,10 +308,10 @@ a:hover { text-decoration: underline; }
 }
 .kicker-time { display: inline-flex; align-items: center; gap: 6px; font-size: .82rem; color: var(--mut); }
 .kicker-time svg { width: 15px; height: 15px; }
-.chapter-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 9px; color: var(--accent); font-weight: 600; font-size: .92rem; margin: 10px 0 18px; }
+.chapter-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 18px; color: var(--accent); font-weight: 600; font-size: .9rem; margin: 0 0 28px; }
+.chapter-meta .cm-item { display: inline-flex; align-items: center; gap: 6px; }
 .chapter-meta svg { width: 16px; height: 16px; }
-.chapter-meta .sep { opacity: .4; font-weight: 400; }
-.chapter-lede { font-size: 1.16rem; color: var(--mut); line-height: 1.6; margin: 4px 0 30px; max-width: 62ch; }
+.chapter-lede { font-size: 1.16rem; color: var(--mut); line-height: 1.6; margin: 4px 0 14px; max-width: 62ch; }
 
 /* Inline code */
 .content :not(pre) > code {
